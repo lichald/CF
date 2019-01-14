@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
+
 @author: lining
 """
 
@@ -17,12 +18,20 @@ class CF:
         pass
     
 
-    def recommend(self,df,rec_type='user_based'):
+    def recommend(self,df,rec_type='user_based',distance='cosine'):
         
         if rec_type == 'user_based':
-            #计算距离。余弦距离转换为余弦相似度，值越大越相关。因这个距离会作为权重来用
-            similarity=1-pairwise_distances(df,metric='cosine',n_jobs=-1)
-            similarityDF=pd.DataFrame(similarity,index=df.index,columns=df.index)
+            
+            #计算距离
+            if distance == 'cosine':
+                #余弦距离转换为余弦相似度，值越大越相关。因这个距离会作为权重来用
+                similarity=1-pairwise_distances(df,metric='cosine',n_jobs=-1)
+                similarityDF=pd.DataFrame(similarity,index=df.index,columns=df.index)
+            
+            if distance == 'Jaccard':
+                similarity=1-pairwise_distances(df,metric='hamming',n_jobs=-1)
+                similarityDF=pd.DataFrame(similarity,index=df.index,columns=df.index)
+            
             #计算推荐的list,评分*权重（权重即是相似度）
             user_rec=np.dot(np.matrix(df).T,np.matrix(similarity))
             recDF=pd.DataFrame(user_rec,index=df.columns,columns=df.index)
@@ -73,6 +82,15 @@ if __name__ == '__main__':
     
     #基于用户做推荐
     cf=CF()
-    user_recDF = cf.recommend(train_user_movie,rec_type='user_based')
+    user_recDF = cf.recommend(train_user_movie,rec_type='user_based',distance='cosine')
     cf.crossValidation(train_user_movie,user_recDF,test_user_movie)
     print cf.cv_DF.describe()
+    
+    
+    
+    
+    
+    
+    
+    
+  
