@@ -12,9 +12,7 @@ user_based 和 item_based 的协同过滤算法理解与应用
 2019.01.13 高级版本(scikit-learn 和 dataframe）分别运行，从低到高的改进；。
 
 ### 下一步行动 
-1. 寻找优化的方法，组合模型？
-2. 记录计算距离的几种不同方式，以及优缺点。
-3. 记录几种不同分组的方式，并做记录
+1. 寻找优化的方法，组合模型
 
 ### 数据源 cf_scikit
 * 数据源说明：http://files.grouplens.org/datasets/movielens/ml-latest-small-README.html
